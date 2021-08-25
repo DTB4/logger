@@ -2,15 +2,15 @@ package logger
 
 import "fmt"
 
-func Info(data interface{}) {
-	fmt.Println("Log info:", data)
+func Info(message string, data interface{}) {
+	fmt.Println("Log info message:", message, "Log info:", data)
 }
-func Error(data interface{}) {
-	fmt.Println("Log error:", data)
+func Error(message string, data interface{}) {
+	fmt.Println("Log Error message:", message, "Log error:", data)
 }
-func Warning(data interface{}) {
-	fmt.Println("Log warning:", data)
+func Warning(message string, data interface{}) {
+	fmt.Println("Log Warning message:", message, "Log warning:", data)
 }
-func Fatal (data interface{}) {
-fmt.Println("Log Fatal:", data)
+func Fatal (message string, data interface{}) {
+	fmt.Println("Log Fatal message:", message, "Log Fatal:", data)
 }
