@@ -1,5 +1,5 @@
-//Provide basic logging functions with output to console or file with 4 levels of messages: INFO, WARNING, ERROR and FATAL
-package main
+// Package logger Provide basic logging functions with output to console or file with 4 levels of messages: INFO, WARNING, ERROR and FATAL
+package logger
 
 import (
 	"fmt"
