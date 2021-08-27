@@ -7,6 +7,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"sync"
 	"time"
 )
 
@@ -18,6 +19,10 @@ var (
 	colorBlue   = "\033[34m"
 	colorPurple = "\033[35m"
 )
+
+type Logger struct {
+	Mutex sync.Mutex
+}
 
 // InfoLog Logging function for Info messages. White message to console with Prefix INFO and Time
 func InfoLog(message string, data interface{}) {
@@ -38,25 +43,28 @@ func FatalLog(message string, data interface{}) {
 	os.Exit(1)
 }
 // FInfoLog Logging function for Info messages. White message to /logs/ directory with Prefix INFO and Time
-func FInfoLog(message string, data interface{}) {
-	logFile(false, "INFO", message, data)
+func(lo Logger)  FInfoLog(message string, data interface{}) {
+	lo.logFile(false, "INFO", message, data)
 }
 // FErrorLog Logging function for Error messages. White message to /logs/ directory with Prefix ERROR, Time and caller info
-func FErrorLog(message string, data interface{}) {
-	logFile(true,"ERROR", message, data)
+func(lo Logger)  FErrorLog(message string, data interface{}) {
+	lo.logFile(true,"ERROR", message, data)
 }
 // FWarningLog Logging function for Warning messages. White message to /logs/ directory with Prefix Warning and Time
-func FWarningLog(message string, data interface{}) {
-	logFile(false,"WARNING", message, data)
+func(lo Logger)  FWarningLog(message string, data interface{}) {
+	lo.logFile(false,"WARNING", message, data)
 }
 // FFatalLog Logging function for Fatal messages. White message to /logs/ directory with Prefix FATAL, Time and caller info
-func FFatalLog(message string, data interface{}) {
-	logFile(true,"FATAL", message, data)
+func (lo Logger) FFatalLog(message string, data interface{}) {
+	lo.logFile(true,"FATAL", message, data)
 	os.Exit(1)
 }
 
-func logFile(needCaller bool, errLevel string, message string, data interface{}) error{
-	fileName := "logs/"+time.Now().Format("06 01 02")+".txt"
+func (lo Logger) logFile(needCaller bool, errLevel string, message string, data interface{}) error{
+	lo.Mutex.Lock()
+	defer lo.Mutex.Unlock()
+	path:=os.Getenv("PATH_TO_LOGS_FILES")
+	fileName := path+time.Now().Format("06 01 02")+".txt"
 	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0765)
 	defer file.Close()
 	if err != nil {
