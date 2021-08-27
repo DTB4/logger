@@ -78,10 +78,10 @@ func (lo Logger) logFile(needCaller bool, errLevel string, message string, data 
 		return err
 	}
 		if needCaller {
-		line:=[]byte(errLevel+":\t"+time.Now().Format("15:04:05")+getCaller(3)+message+fmt.Sprint(data)+"\n")
+		line:=[]byte(errLevel+":\t"+time.Now().Format("15:04:05")+":\t"+getCaller(3)+":\t"+message+":\t"+fmt.Sprint(data)+"\n")
 		file.Write(line)
 	}else{
-		line:=[]byte(errLevel+":\t"+time.Now().Format("15:04:05")+message+fmt.Sprint(data)+"\n")
+		line:=[]byte(errLevel+":\t"+time.Now().Format("15:04:05")+":\t"+message+":\t"+fmt.Sprint(data)+"\n")
 		file.Write(line)}
 
 
