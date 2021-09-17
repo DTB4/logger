@@ -22,7 +22,7 @@ type Logger struct {
 	Directory string
 }
 
-//NewLogger recive path to your existed logs directory in format "/logs"
+//NewLogger receive path to your existed logs directory in format "/logs"
 func NewLogger(directory string) *Logger {
 	return &Logger{
 		Mutex:     sync.Mutex{},
