@@ -13,9 +13,7 @@ import (
 var (
 	colorReset  = "\033[0m"
 	colorRed    = "\033[31m"
-	colorGreen  = "\033[32m"
 	colorYellow = "\033[33m"
-	colorBlue   = "\033[34m"
 	colorPurple = "\033[35m"
 )
 
@@ -24,6 +22,7 @@ type Logger struct {
 	Directory string
 }
 
+//NewLogger recive path to your existed logs directory in format "/logs"
 func NewLogger(directory string) *Logger {
 	return &Logger{
 		Mutex:     sync.Mutex{},
@@ -73,7 +72,7 @@ func (lo *Logger) FFatalLog(message string, data ...interface{}) {
 	os.Exit(1)
 }
 
-func (lo *Logger) logFile(needCaller bool, errLevel string, message string, data ...interface{}) error {
+func (lo *Logger) logFile(needCaller bool, errLevel string, message string, data ... interface{}) error {
 	lo.Mutex.Lock()
 	path := lo.Directory
 	fileName := path + time.Now().Format("06_01_02") + ".txt"
